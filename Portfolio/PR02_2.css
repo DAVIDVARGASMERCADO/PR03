@@ -1,0 +1,229 @@
+li {
+    list-style-type: none;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+
+body {
+    background-color: #222;
+    color: white;
+}
+
+.barra {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: darkred;
+    padding: 20px;
+}
+
+.logo {
+    color: #222;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.links {
+    display: flex;
+    list-style: none;
+    gap: 300px;
+    margin-left: 300px;
+}
+
+.links a {
+    color: #222;
+    text-decoration: none;
+}
+
+.links a:hover {
+    color: white;
+}
+
+.search {
+    color: #222;
+    margin-left: 500px;
+}
+
+.searchinput {
+    background: #222;
+    border: 1px solid #555;
+    color: white;
+    padding: 0.4rem;
+    border-radius: 4px;
+    display: flex;
+    justify-content: end;
+}
+
+section {
+    padding: 4px 2px;
+    text-align: center;
+}
+
+section h2 {
+    color: darkred;
+    margin-bottom: 1px;
+}
+
+.presentacion {
+    background: linear-gradient(180deg, darkred, #222);
+    padding: 50px;
+}
+
+.presentacion h1 {
+    font-size: 40px;
+    color: white;
+}
+
+.presentacion .contactar {
+    display: inline-block;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding: 8px;
+    background: #222;
+    color: white;
+    font-weight: bold;
+    border-radius: 6px;
+    text-decoration: none;
+    transition-duration: 0.3s;
+}
+
+.presentacion .contactar:hover {
+    background: white;
+    color: #222;
+}
+
+.redes img {
+    height: 50px;
+    width: 50px;
+    margin: 5px;
+}
+
+.about h2{
+    margin-bottom: 10px;
+}
+
+.about p{
+    margin-left: 500px;
+    margin-right: 500px;
+    margin-bottom: 50px;
+}
+
+.skills {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    list-style: none;
+    max-width: 900px;
+    margin: 20px auto;
+    justify-items: center;
+}
+
+.skills img {
+    width: 64px;
+    height: 64px;
+}
+
+.skills li {
+    background: #222;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.portfolio {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.projects article {
+  background: #1a1a1a;
+  padding: 10px;
+  border-radius: 8px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.projects article:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px darkred;
+}
+
+.projects video {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.projects p {
+  margin: 3px;
+}
+
+.experience article {
+    background: #1a1a1a;
+    padding: 10px;
+    margin: 10px auto;
+    border-left: 4px solid darkred;
+    border-radius: 4px;
+    max-width: 800px;
+}
+
+.experience p{
+    text-decoration: underline;
+}
+
+.experience li{
+    margin-top: 10px;
+    margin-left: 20px;
+    list-style-type: disc;
+    text-align: left;
+}
+
+
+.contact form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.contact input, .contact textarea {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    color: #fff;
+    padding: 0.6rem;
+    border-radius: 4px;
+}
+
+.button {
+    background: darkred;
+    color: #000;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+    padding: 6px 10px;
+    transition: 0.3s;
+}
+
+.button:hover {
+    background: #222;
+    color: darkred;
+}
+
+.footer {
+    background: #1a1a1a;
+    padding: 10px;
+    text-align: center;
+    border-top: 2px solid darkred;
+}
