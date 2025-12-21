@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PR04 - Wordle</title>
+    <style>
+        .tecla {
+            width: 60px;
+            height: 60px;
+            border: 2px solid #555;
+            border-radius: 6px;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            font-size: 22px;
+            font-weight: bold;
+            color: black;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            margin: 10px;
+            background-color: brown;
+        }
+
+        .boton {
+            width: 200px;
+            height: 50px;
+            border: 10px black solid;
+            border-radius: 10px;
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            font-size: 30px;
+            color: black;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px;
+            background-color: burlywood;
+        }
+
+        #teclado {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+            gap: 8px;
+            width: 100%;
+            max-width: 800px;
+            margin: 20px auto;
+            justify-items: center;
+        }
+
+        .texto {
+            width: 300px;
+            height: 50px;
+            background-color: black;
+            font-size: 24px;
+        }
+
+        .tecla:hover {
+            background-color: burlywood;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 id="titulo">PR04 - Wordle</h1>
+    <div id="texto"></div>
+    <div class="boton" onclick="borrarLetra()">Borrar Letra</div>
+    <div class="boton" onclick="comprobar()">Comprobar</div>
+    <div id="teclado">
+
+    </div>
+    <script>
+        let teclado = document.getElementById("teclado");
+
+        for (let i = 65; i < 91; i++) {
+            let tecla = document.createElement("div");
+            tecla.innerHTML = "<p>" + String.fromCharCode(i) + "</p>";
+            tecla.className = "tecla";
+
+            tecla.setAttribute('onclick', "escribeTecla('" + String.fromCharCode(i) + "')");
+
+            teclado.appendChild(tecla);
+        }
+
+        palabraSecreta();
+        let palabra = "";
+        function palabraSecreta() {
+            fetch('https://random-word-api.herokuapp.com/word?lang=es&length=5')
+                .then(response => response.json())
+                .then(data => {
+                    palabra = data[0]; // La API devuelve un array, ej: ["perro"]
+
+                    palabra = palabra.toUpperCase(); //Pasamos palabra a mayusculas
+                    console.log("Tu palabra secreta es:", palabra);
+                });
+
+        }
+
+
+        function escribeTecla(tecla) {
+            console.log(tecla);
+            let texto = document.getElementById("texto");
+
+            if (texto.textContent.length < 5) {
+                texto.textContent += tecla; //si no es mas larga de 5, añade letra
+                texto.style.backgroundColor = "white";
+            } else {
+                texto.style.backgroundColor = "red";
+                console.log("demasiado largo"); //si es mas larga de 5, no añade letra
+            }
+        }
+
+        function borrarLetra() {
+            let texto = document.getElementById("texto");
+            if (texto.textContent.length > 0) {
+                texto.style.backgroundColor = "white";
+                texto.textContent = texto.textContent.substring(0, texto.textContent.length - 1);
+            }
+        }
+
+        function comprobar() {
+            let texto = document.getElementById("texto");
+            if (texto.textContent == palabra) {
+                texto.style.backgroundColor = "green"; //si tu texto coincide con la palabra random, es correcto
+                alert("You win perfect!");
+            } else {
+                texto.style.backgroundColor = "red" //si tu texto no coincide con la palabra random, es incorrecto
+                alert("You lost.");
+            }
+        }
+    </script>
+</body>
+
+</html>
