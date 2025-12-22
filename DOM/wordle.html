@@ -13,7 +13,6 @@
             border-radius: 6px;
             font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
             font-size: 22px;
-            font-weight: bold;
             color: black;
             text-align: center;
             align-items: center;
@@ -27,7 +26,7 @@
             height: 50px;
             border: 10px black solid;
             border-radius: 10px;
-            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
             font-size: 30px;
             color: black;
             text-align: center;
@@ -58,11 +57,51 @@
         .tecla:hover {
             background-color: burlywood;
         }
+
+        #tablero {
+            display: grid;
+            grid-template-rows: repeat(6, 1fr);
+            gap: 10px;
+            margin: 20px auto;
+            width: 320px;
+        }
+
+        .fila {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+        }
+
+        .celda {
+            width: 60px;
+            height: 60px;
+            border: 2px solid grey;
+            font-size: 28px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: black;
+            color: white;
+        }
+
+        .correcta {
+            background-color: green;
+        }
+
+        .presente {
+            background-color: darkgoldenrod;
+        }
+
+        .incorrecta {
+            background-color: grey;
+        }
     </style>
 </head>
 
 <body>
     <h1 id="titulo">PR04 - Wordle</h1>
+    <div id="tablero"></div>
     <div id="texto"></div>
     <div class="boton" onclick="borrarLetra()">Borrar Letra</div>
     <div class="boton" onclick="comprobar()">Comprobar</div>
@@ -71,7 +110,11 @@
     </div>
     <script>
         let teclado = document.getElementById("teclado");
+        let tablero = document.getElementById("tablero");
+        let intentoActual = 0;
+        let palabraActual = "";
 
+        //teclado
         for (let i = 65; i < 91; i++) {
             let tecla = document.createElement("div");
             tecla.innerHTML = "<p>" + String.fromCharCode(i) + "</p>";
@@ -80,6 +123,19 @@
             tecla.setAttribute('onclick', "escribeTecla('" + String.fromCharCode(i) + "')");
 
             teclado.appendChild(tecla);
+        }
+
+        //tablero
+        for (let i = 0; i < 6; i++) {
+            let fila = document.createElement("div");
+            fila.className = "fila";
+
+            for (let j = 0; j < 5; j++) {
+                let celda = document.createElement("div");
+                celda.className = "celda";
+                fila.appendChild(celda);
+            }
+            tablero.appendChild(fila);
         }
 
         palabraSecreta();
@@ -103,7 +159,7 @@
 
             if (texto.textContent.length < 5) {
                 texto.textContent += tecla; //si no es mas larga de 5, añade letra
-                texto.style.backgroundColor = "white";
+                pintarFila();
             } else {
                 texto.style.backgroundColor = "red";
                 console.log("demasiado largo"); //si es mas larga de 5, no añade letra
@@ -115,17 +171,63 @@
             if (texto.textContent.length > 0) {
                 texto.style.backgroundColor = "white";
                 texto.textContent = texto.textContent.substring(0, texto.textContent.length - 1);
+                pintarFila();
+            }
+        }
+
+        function pintarFila() {
+            let texto = document.getElementById("texto").textContent;
+            let fila = tablero.children[intentoActual]; //obtener la fila actual
+
+            for (let i = 0; i < 5; i++) {
+                fila.children[i].textContent = texto[i] || ""; //pone la letra en la celda
             }
         }
 
         function comprobar() {
-            let texto = document.getElementById("texto");
-            if (texto.textContent == palabra) {
-                texto.style.backgroundColor = "green"; //si tu texto coincide con la palabra random, es correcto
-                alert("You win perfect!");
-            } else {
-                texto.style.backgroundColor = "red" //si tu texto no coincide con la palabra random, es incorrecto
-                alert("You lost.");
+            let texto = document.getElementById("texto").textContent;
+            console.log("Comprobando:", texto);
+            console.log("Palabra secreta:", palabra);
+
+            if (texto.length !== 5) {
+                console.log("No tiene 5 letras");
+                return;
+            }
+
+            let fila = tablero.children[intentoActual]; //obtener la fila actual
+            let letrasUsadas = palabra.split(""); //obtener las letras de la palabra
+
+            // Letras correctas
+            for (let i = 0; i < 5; i++) {
+                if (texto[i] === palabra[i]) {
+                    fila.children[i].classList.add("correcta"); //pone la letra en la celda con el color correcto
+                    letrasUsadas[i] = null; //marca la letra como usada
+                }
+            }
+
+            // Letras presentes / incorrectas
+            for (let i = 0; i < 5; i++) {
+                if (fila.children[i].classList.contains("correcta")) continue;
+
+                let index = letrasUsadas.indexOf(texto[i]);
+                if (index !== -1) {
+                    fila.children[i].classList.add("presente"); //pone la letra en la celda con el color de que esta presente pero no en lugar correcto
+                    letrasUsadas[index] = null; //marca la letra como usada
+                } else {
+                    fila.children[i].classList.add("incorrecta"); //pone la letra en la celda con el color incorrecto
+                }
+            }
+
+            if (texto === palabra) {
+                alert("¡Has ganado!");
+                return;
+            }
+
+            intentoActual++;
+            document.getElementById("texto").textContent = "";
+
+            if (intentoActual === 6) {
+                alert("Has perdido. La palabra era: " + palabra);
             }
         }
     </script>
